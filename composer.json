@@ -1,0 +1,25 @@
+{
+    "name": "Ekimik/ApiDesc",
+    "description": "Simple lib for describe some API",
+    "authors": [
+        {
+            "name": "Jan Jíša",
+            "email": "j.jisa@seznam.cz",
+            "homepage": "https://about.me/jan-jisa"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ekimik\\ApiDesc\\": "src/",
+            "Ekimik\\ApiDesc\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">= 7.0",
+        "nette/utils": "^2.4.0",
+        "nette/robot-loader": "^2.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7.0"
+    }
+}
