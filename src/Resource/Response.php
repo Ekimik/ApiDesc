@@ -2,6 +2,8 @@
 
 namespace Ekimik\ApiDesc\Resource;
 
+use \Ekimik\ApiDesc\Param\Response as ResponseAttr;
+
 /**
  * @author Jan Jíša <j.jisa@seznam.cz>
  * @package Ekimik\ApiDesc
@@ -22,11 +24,30 @@ class Response implements IResponse {
 	return $this->response;
     }
 
+    public function getRawData(): array {
+	$data = $this->getDescription();
+	foreach ($data['attrs'] as &$attr) {
+	    $attr = $attr->getRawData();
+	}
+
+	return $data;
+    }
+
+    public function setRawData(array $rawData) {
+	foreach ($rawData['attrs'] as &$attr) {
+	    $ra = new ResponseAttr('', '');
+	    $ra->setRawData($attr);
+	    $attr = $ra;
+	}
+
+	$this->response = $rawData;
+    }
+
     public function setAboutInfo(string $about) {
 	$this->response['about'] = $about;
     }
 
-    public function addAttr(Param\Response $attr) {
+    public function addAttr(ResponseAttr $attr) {
 	$this->response['attrs'][] = $attr;
 	return $this;
     }

@@ -53,4 +53,24 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 	$this->assertEquals($assert, $this->object->getDescription());
     }
 
+    /**
+     * @covers Request::setRawData
+     * @covers Request::getRawData
+     */
+    public function testSetRawData() {
+	$param = new Request('foo', 'object', FALSE);
+	$param1 = new Request('bar', 'string');
+	$param2 = new Request('baz', 'array');
+	$param->setSubParams([$param1, $param2]);
+
+	$p = new Request('', '');
+	$p->setRawData($param->getRawData());
+	$pDesc = $p->getDescription();
+	$this->assertEquals('foo', $pDesc['name']);
+	$this->assertEquals('object', $pDesc['dataType']);
+	$this->assertCount(2, $pDesc['params']);
+	$this->assertInstanceOf(Request::class, $pDesc['params']['bar']);
+	$this->assertInstanceOf(Request::class, $pDesc['params']['baz']);
+    }
+
 }

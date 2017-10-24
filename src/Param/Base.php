@@ -29,6 +29,26 @@ abstract class Base implements IParam {
 	return $this->param;
     }
 
+    public function getRawData(): array {
+	$data = $this->getDescription();
+	foreach ($data['params'] as &$param) {
+	    $param = $param->getRawData();
+	}
+
+	return $data;
+    }
+
+    public function setRawData(array $rawData) {
+	foreach ($rawData['params'] as &$param) {
+	    $paramClass = static::class;
+	    $p = new $paramClass('', '');
+	    $p->setRawData($param);
+	    $param = $p;
+	}
+
+	$this->param = $rawData;
+    }
+
     /**
      * @param Base[] $params
      */

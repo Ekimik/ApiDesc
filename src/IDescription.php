@@ -9,5 +9,7 @@ namespace Ekimik\ApiDesc;
 interface IDescription {
 
     public function getDescription(): array;
+    public function getRawData(): array;
+    public function setRawData(array $rawData);
 
 }

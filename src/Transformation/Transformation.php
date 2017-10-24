@@ -23,6 +23,25 @@ class Transformation implements ITransformation {
 	return $this->transformation;
     }
 
+    public function getRawData(): array {
+	$data = $this->getDescription();
+	foreach ($data['params'] as &$param) {
+	    $param = $param->getRawData();
+	}
+
+	return $data;
+    }
+
+    public function setRawData(array $rawData) {
+	foreach ($rawData['params'] as &$param) {
+	    $tp = new TransformationParam('', '');
+	    $tp->setRawData($param);
+	    $param = $tp;
+	}
+
+	$this->transformation = $rawData;
+    }
+
     public function addParam(TransformationParam $param) {
 	$this->transformation['params'][] = $param;
 	return $this;

@@ -27,6 +27,25 @@ class Action implements IAction {
 	return $this->action;
     }
 
+    public function getRawData(): array {
+	$data = $this->getDescription();
+	foreach ($data['params'] as &$param) {
+	    $param = $param->getRawData();
+	}
+
+	return $data;
+    }
+
+    public function setRawData(array $rawData) {
+	foreach ($rawData['params'] as &$param) {
+	    $rp = new RequestParam('', '');
+	    $rp->setRawData($param);
+	    $param = $rp;
+	}
+
+	$this->action = $rawData;
+    }
+
     public function setAboutInfo(string $about) {
 	$this->action['about'] = $about;
     }
@@ -41,59 +60,5 @@ class Action implements IAction {
 	$this->action['params'][$paramDef['name']] = $param;
 	return $this;
     }
-
-
-
-//    public function addParam(string $name, string $type, bool $isRequired, array $subParams = []) {
-//	$param = new Param($name, $type, $isRequired);
-//
-//	if (!empty($subParams)) {
-//	    $param->setSubParams($subParams);
-//	}
-//
-//	if (!isset($this->action['params'][$name])) {
-//	    $this->action['params'][$name] = $param;
-//	    return $param;
-//	}
-//
-//	return NULL;
-//    }
-
-//    /**
-//     * @return Param[]
-//     */
-//    public function getParams(): array {
-//	return $this->actionInfo['params'];
-//    }
-//
-//    public function setResponse(string $type, string $desc) {
-//	$this->actionInfo['response'] = ['type' => $type, 'description' => $desc];
-//    }
-//
-//    public function getParam(string $paramPath) {
-//	$paramPathParts = explode(Param::PATH_SEPARATOR, $paramPath);
-//	$paramPathPartsClone = $paramPathParts;
-//	$paramPathPartsCount = count($paramPathParts);
-//	$params = $this->getParams();
-//	$lastFoundParamInPath = NULL;
-//	$iterableParams = $params;
-//
-//	while ($pathPart = array_shift($paramPathPartsClone)) {
-//	    if (empty($iterableParams[$pathPart])) {
-//		break;
-//	    } else if ($paramPathPartsCount > 1 && !$iterableParams[$pathPart]->hasSubParams() && $iterableParams[$pathPart]->getName() !== $pathPart) {
-//		break;
-//	    }
-//
-//	    $lastFoundParamInPath = $iterableParams[$pathPart];
-//	    $iterableParams = $iterableParams[$pathPart]->getSubParams();
-//	}
-//
-//	if (!empty($lastFoundParamInPath && $lastFoundParamInPath->getName() === $paramPathParts[$paramPathPartsCount - 1])) {
-//	    return $lastFoundParamInPath;
-//	}
-//
-//	return NULL;
-//    }
 
 }

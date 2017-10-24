@@ -8,6 +8,4 @@ namespace Ekimik\ApiDesc\Param;
  */
 class Response extends Base {
 
-
-
 }

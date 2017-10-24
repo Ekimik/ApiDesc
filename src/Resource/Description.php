@@ -24,6 +24,25 @@ class Description implements IDescription {
 	return $this->resource;
     }
 
+    public function getRawData(): array {
+	$data = $this->getDescription();
+	foreach ($data['actions'] as &$action) {
+	    $action = $action->getRawData();
+	}
+
+	return $data;
+    }
+
+    public function setRawData(array $rawData) {
+	foreach ($rawData['actions'] as &$action) {
+	    $a = new Action('', '');
+	    $a->setRawData($action);
+	    $action = $a;
+	}
+
+	$this->resource = $rawData;
+    }
+
     public function addAction(IAction $action) {
 	$this->resource['actions'][] = $action;
     }
