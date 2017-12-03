@@ -67,4 +67,26 @@ class ActionTest extends \PHPUnit_Framework_TestCase {
 	$this->assertEquals($actionDef, $action->getDescription());
     }
 
+    /**
+     * @covers Action::getParam
+     */
+    public function testGetParam() {
+	$action = new Action('Foobar', 'GET');
+	$action->setAboutInfo('Foobar desc');
+
+	$param1 = new RequestParam('param_1', 'string');
+	$action->addParam($param1);
+	$param2 = new RequestParam('param_2', 'array');
+	$param3 = new RequestParam('param_3', 'string');
+	$param2->addParam($param3);
+	$action->addParam($param2);
+
+	$this->assertNull($action->getParam('foo'));
+	$this->assertNull($action->getParam('foo.bar'));
+	$this->assertNull($action->getParam('param_2.foobar'));
+	$this->assertSame($param1, $action->getParam('param_1'));
+	$this->assertSame($param2, $action->getParam('param_2'));
+	$this->assertSame($param3, $action->getParam('param_2.param_3'));
+    }
+
 }

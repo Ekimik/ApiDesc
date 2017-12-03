@@ -68,4 +68,47 @@ class Action implements IAction {
 	return $this->action['params'];
     }
 
+    /**
+     * @param string $path
+     * @return RequestParam|null
+     */
+    public function getParam(string $path) {
+	$nameParts = explode(RequestParam::NAME_PATH_SEPARATOR, $path);
+
+	$param = NULL;
+	$parent = NULL;
+	foreach ($nameParts as $part) {
+	    $param = $this->getParamByName($part, $parent);
+	    if (empty($param)) {
+		return NULL;
+	    }
+
+	    $parent = $param;
+	}
+
+	return $param;
+    }
+
+    /**
+     * @param string $name
+     * @param RequestParam $parent
+     * @return RequestParam|null
+     */
+    private function getParamByName(string $name, RequestParam $parent = NULL) {
+	if ($parent === NULL) {
+	    $params = $this->getParams();
+	} else {
+	    $params = $parent->getParams();
+	}
+
+	foreach ($params as $param) {
+	    $pName = $param->getDescription()['name'];
+	    if ($pName === $name) {
+		return $param;
+	    }
+	}
+
+	return NULL;
+    }
+
 }
