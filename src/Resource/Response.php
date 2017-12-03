@@ -52,4 +52,11 @@ class Response implements IResponse {
 	return $this;
     }
 
+    /**
+     * @return ResponseAttr[]
+     */
+    public function getAttrs(): array {
+	return $this->response['attrs'];
+    }
+
 }

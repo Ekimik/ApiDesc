@@ -61,4 +61,11 @@ class Action implements IAction {
 	return $this;
     }
 
+    /**
+     * @return RequestParam[]
+     */
+    public function getParams(): array {
+	return $this->action['params'];
+    }
+
 }

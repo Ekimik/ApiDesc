@@ -47,6 +47,13 @@ class Description implements IDescription {
 	$this->resource['actions'][] = $action;
     }
 
+    /**
+     * @return Action[]
+     */
+    public function getActions(): array {
+	return $this->resource['actions'];
+    }
+
     public function setAboutInfo(string $about) {
 	$this->resource['about'] = $about;
     }

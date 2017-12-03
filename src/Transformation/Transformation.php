@@ -47,4 +47,11 @@ class Transformation implements ITransformation {
 	return $this;
     }
 
+    /**
+     * @return TransformationParam[]
+     */
+    public function getParams(): array {
+	return $this->transformation['params'];
+    }
+
 }

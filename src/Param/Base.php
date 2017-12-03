@@ -8,8 +8,6 @@ namespace Ekimik\ApiDesc\Param;
  */
 abstract class Base implements IParam {
 
-    const PATH_SEPARATOR = '.';
-
     protected $param = [
 	'name' => NULL,
 	'dataType' => NULL,
@@ -66,6 +64,13 @@ abstract class Base implements IParam {
 
     public function hasSubParams(): bool {
 	return !empty($this->param['params']);
+    }
+
+    /**
+     * @return Base[]
+     */
+    public function getParams(): array {
+	return $this->param['params'];
     }
 
     public function setAdditionalInfo(array $aditionalInfo) {
