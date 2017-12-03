@@ -62,6 +62,18 @@ abstract class Base implements IParam {
 	}
     }
 
+    public function addSubParam(Base $param) {
+	$paramName = $param->getDescription()['name'];
+	if (key_exists($paramName, $this->param['params'])) {
+	    return $this;
+	}
+
+	$param->setParent($this);
+	$this->param['params'][$paramName] = $param;
+
+	return $this;
+    }
+
     public function hasSubParams(): bool {
 	return !empty($this->param['params']);
     }
