@@ -2,9 +2,10 @@
 
 namespace Ekimik\ApiDesc\Tests\Resource;
 
-use Ekimik\ApiDesc\Resource\Action;
+use \Ekimik\ApiDesc\Resource\Action;
 use \Ekimik\ApiDesc\Param\Request as RequestParam;
 use \Ekimik\ApiDesc\Resource\Response;
+use \Ekimik\ApiDesc\Transformation\ITransformation;
 
 /**
  * @author Jan Jíša <j.jisa@seznam.cz>
@@ -87,6 +88,48 @@ class ActionTest extends \PHPUnit_Framework_TestCase {
 	$this->assertSame($param1, $action->getParam('param_1'));
 	$this->assertSame($param2, $action->getParam('param_2'));
 	$this->assertSame($param3, $action->getParam('param_2.param_3'));
+    }
+
+    /**
+     * @covers Action::setRawData
+     * @covers Action::getRawData
+     */
+    public function testGetSetRawData() {
+	$action = new Action('Foobar', 'POST');
+	$action->setAboutInfo('Foobar desc');
+	$action->setResponse((new Response('string')));
+
+	$param1 = new RequestParam('param_1', 'integer');
+	$action->addParam($param1);
+
+	$rawData = [
+	    'name' => 'Foobar',
+	    'about' => 'Foobar desc',
+	    'method' => 'POST',
+	    'response' => [
+		'dataType' => 'string',
+		'about' => NULL,
+		'attrs' => [],
+	    ],
+	    'params' => [
+		'param_1' => [
+		    'name' => 'param_1',
+		    'dataType' => 'integer',
+		    'params' => [],
+		    'additionalInfo' => [],
+		    'required' => TRUE,
+		    'transformations' => [
+			ITransformation::TYPE_INPUT => [],
+			ITransformation::TYPE_OUTPUT => [],
+		    ]
+		]
+	    ],
+	];
+	$this->assertEquals($rawData, $action->getRawData());
+
+	$actionNew = new Action('', '');
+	$actionNew->setRawData($rawData);
+	$this->assertEquals($action, $actionNew);
     }
 
 }

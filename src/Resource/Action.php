@@ -33,6 +33,8 @@ class Action implements IAction {
 	    $param = $param->getRawData();
 	}
 
+	$data['response'] = $data['response']->getRawData();
+
 	return $data;
     }
 
@@ -42,6 +44,10 @@ class Action implements IAction {
 	    $rp->setRawData($param);
 	    $param = $rp;
 	}
+
+	$response = new Response('');
+	$response->setRawData($rawData['response']);
+	$rawData['response'] = $response;
 
 	$this->action = $rawData;
     }
