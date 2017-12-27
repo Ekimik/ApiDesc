@@ -12,7 +12,8 @@ class Action implements IAction {
 
     protected $action = [
 	'name' => NULL,
-	'about' => NULL,
+	'about' => NULL, // human friendly description of action
+	'additionalInfo' => [],
 	'method' => NULL,
 	'response' => NULL,
 	'params' => [],
@@ -50,6 +51,16 @@ class Action implements IAction {
 	$rawData['response'] = $response;
 
 	$this->action = $rawData;
+    }
+
+    public function setAdditionalInfo(array $aditionalInfo) {
+	$this->action['additionalInfo'] = $aditionalInfo;
+	return $this;
+    }
+
+    public function setAditionalInfoKey(string $key, $value) {
+	$this->action['additionalInfo'][$key] = $value;
+	return $this;
     }
 
     public function setAboutInfo(string $about) {

@@ -25,7 +25,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase {
 	    'method' => 'GET',
 	    'about' => NULL,
 	    'params' => [],
-	    'response' => NULL
+	    'response' => NULL,
+	    'additionalInfo' => [],
 	];
 	$this->assertEquals($actionDef, $action->getDescription());
 
@@ -37,7 +38,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase {
 	    'method' => 'GET',
 	    'about' => NULL,
 	    'params' => [],
-	    'response' => $response
+	    'response' => $response,
+	    'additionalInfo' => [],
 	];
 	$this->assertEquals($actionDef, $action->getDescription());
     }
@@ -62,7 +64,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase {
 		'param_1' => $param1,
 		'param_2' => $param2,
 	    ],
-	    'response' => NULL
+	    'response' => NULL,
+	    'additionalInfo' => []
 	];
 
 	$this->assertEquals($actionDef, $action->getDescription());
@@ -124,6 +127,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase {
 		    ]
 		]
 	    ],
+	    'additionalInfo' => [],
 	];
 	$this->assertEquals($rawData, $action->getRawData());
 
