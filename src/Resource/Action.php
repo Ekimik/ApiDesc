@@ -58,7 +58,7 @@ class Action implements IAction {
 	return $this;
     }
 
-    public function setAditionalInfoKey(string $key, $value) {
+    public function setAdditionalInfoKey(string $key, $value) {
 	$this->action['additionalInfo'][$key] = $value;
 	return $this;
     }

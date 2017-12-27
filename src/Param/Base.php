@@ -92,7 +92,7 @@ abstract class Base implements IParam {
 	return $this;
     }
 
-    public function setAditionalInfoKey(string $key, $value) {
+    public function setAdditionalInfoKey(string $key, $value) {
 	$this->param['additionalInfo'][$key] = $value;
 	return $this;
     }
