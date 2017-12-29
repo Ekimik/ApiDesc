@@ -1,6 +1,7 @@
 {
     "name": "ekimik/apidesc",
     "description": "Simple lib for describe some API",
+    "license": "Mozilla Public License 2.0",
     "authors": [
         {
             "name": "Jan Jíša",
