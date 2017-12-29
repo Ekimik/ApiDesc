@@ -8,5 +8,5 @@ Simple library that allows you to describe your REST API. It allows you to descr
 ## Instalation
 Best way is install through Composer, add following line to `require` section of your `composer.json` file
 ```
-Ekimik/ApiDesc: [VERSION]
+ekimik/apidesc: [VERSION]
 ```
