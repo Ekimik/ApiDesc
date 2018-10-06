@@ -11,7 +11,7 @@ use \Ekimik\ApiDesc\Transformation\ITransformation;
  * @author Jan Jíša <j.jisa@seznam.cz>
  * @package Ekimik\ApiDesc
  */
-class ActionTest extends \PHPUnit_Framework_TestCase {
+class ActionTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @covers Action::getDescription

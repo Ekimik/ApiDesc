@@ -9,7 +9,7 @@ use \Ekimik\ApiDesc\Resource\Description,
  * @author Jan Jíša <j.jisa@seznam.cz>
  * @package Ekimik\ApiDesc
  */
-class DescriptionTest extends \PHPUnit_Framework_TestCase {
+class DescriptionTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @covers Description::setAboutInfo

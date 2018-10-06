@@ -10,7 +10,7 @@ use \Ekimik\ApiDesc\Resource\Action;
  * @author Jan Jíša <j.jisa@seznam.cz>
  * @package Ekimik\ApiDesc
  */
-class ApiTest extends \PHPUnit_Framework_TestCase {
+class ApiTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @covers Api::getDescription

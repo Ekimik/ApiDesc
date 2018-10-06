@@ -11,7 +11,7 @@ use \Ekimik\ApiDesc\Param\Transformation as TransformationParam;
  * @author Jan Jíša <j.jisa@seznam.cz>
  * @package Ekimik\ApiDesc
  */
-class RequestTest extends \PHPUnit_Framework_TestCase {
+class RequestTest extends \PHPUnit\Framework\TestCase {
 
     /** @var Request */
     protected $object;

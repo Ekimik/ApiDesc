@@ -8,7 +8,7 @@ use Ekimik\ApiDesc\Param\Base;
  * @author Jan Jíša <j.jisa@seznam.cz>
  * @package Ekimik\ApiDesc
  */
-class BaseTest extends \PHPUnit_Framework_TestCase {
+class BaseTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @covers Base::setSubParams
