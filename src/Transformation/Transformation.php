@@ -11,47 +11,51 @@ use Ekimik\ApiDesc\Param\Transformation as TransformationParam;
 class Transformation implements ITransformation {
 
     protected $transformation = [
-	'name' => NULL,
-	'params' => [],
+        'name' => null,
+        'params' => [],
     ];
 
     public function __construct(string $name) {
-	$this->transformation['name'] = $name;
+        $this->transformation['name'] = $name;
     }
 
     public function getDescription(): array {
-	return $this->transformation;
+        return $this->transformation;
     }
 
     public function getRawData(): array {
-	$data = $this->getDescription();
-	foreach ($data['params'] as &$param) {
-	    $param = $param->getRawData();
-	}
+        $data = $this->getDescription();
+        foreach ($data['params'] as &$param) {
+            $param = $param->getRawData();
+        }
 
-	return $data;
+        return $data;
     }
 
     public function setRawData(array $rawData) {
-	foreach ($rawData['params'] as &$param) {
-	    $tp = new TransformationParam('', '');
-	    $tp->setRawData($param);
-	    $param = $tp;
-	}
+        foreach ($rawData['params'] as &$param) {
+            $tp = new TransformationParam('', '');
+            $tp->setRawData($param);
+            $param = $tp;
+        }
 
-	$this->transformation = $rawData;
+        $this->transformation = $rawData;
     }
 
-    public function addParam(TransformationParam $param) {
-	$this->transformation['params'][] = $param;
-	return $this;
+    public function getName(): string {
+        return $this->transformation['name'];
     }
 
     /**
      * @return TransformationParam[]
      */
     public function getParams(): array {
-	return $this->transformation['params'];
+        return $this->transformation['params'];
+    }
+
+    public function addParam(TransformationParam $param) {
+        $this->transformation['params'][] = $param;
+        return $this;
     }
 
 }

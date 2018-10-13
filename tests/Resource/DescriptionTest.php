@@ -34,9 +34,9 @@ class DescriptionTest extends \PHPUnit\Framework\TestCase {
         ];
         $this->assertEquals($descDef, $desc->getDescription());
 
-	$action1 = new Action('Foo action', 'PUT');
+        $action1 = new Action('Foo action', 'PUT');
         $desc->addAction($action1);
-	$action2 = new Action('Foobar action', 'DELETE');
+        $action2 = new Action('Foobar action', 'DELETE');
         $desc->addAction($action2);
         $descDef = [
             'name' => 'fooResource',

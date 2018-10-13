@@ -11,99 +11,111 @@ abstract class Base implements IParam {
     const NAME_PATH_SEPARATOR = '.';
 
     protected $param = [
-	'name' => NULL,
-	'dataType' => NULL,
-	'params' => [],
-	'additionalInfo' => [],
+        'name' => null,
+        'dataType' => null,
+        'params' => [],
+        'additionalInfo' => [],
     ];
 
     /** @var Base */
-    private $parent = NULL;
+    private $parent = null;
 
     public function __construct(string $name, string $type) {
-	$this->param['name'] = $name;
-	$this->param['dataType'] = $type;
+        $this->param['name'] = $name;
+        $this->param['dataType'] = $type;
     }
 
     public function getDescription(): array {
-	return $this->param;
+        return $this->param;
     }
 
     public function getRawData(): array {
-	$data = $this->getDescription();
-	foreach ($data['params'] as &$param) {
-	    $param = $param->getRawData();
-	}
+        $data = $this->getDescription();
+        foreach ($data['params'] as &$param) {
+            $param = $param->getRawData();
+        }
 
-	return $data;
+        return $data;
     }
 
     public function setRawData(array $rawData) {
-	foreach ($rawData['params'] as &$param) {
-	    $paramClass = static::class;
-	    $p = new $paramClass('', '');
-	    $p->setRawData($param);
-	    $param = $p;
-	}
+        foreach ($rawData['params'] as &$param) {
+            $paramClass = static::class;
+            $p = new $paramClass('', '');
+            $p->setRawData($param);
+            $param = $p;
+        }
 
-	$this->param = $rawData;
+        $this->param = $rawData;
     }
 
-    /**
-     * @param Base[] $params
-     */
-    public function setSubParams(array $params) {
-	foreach ($params as $param) {
-	    if (!$param instanceof Base) {
-		throw new \InvalidArgumentException('Every item have to be instance of ' . self::class);
-	    }
-
-	    $param->setParent($this);
-	    $paramName = $param->getDescription()['name'];
-	    $this->param['params'][$paramName] = $param;
-	}
+    public function getName(): string {
+        return $this->param['name'];
     }
 
-    public function addParam(Base $param) {
-	$paramName = $param->getDescription()['name'];
-	if (key_exists($paramName, $this->param['params'])) {
-	    return $this;
-	}
-
-	$param->setParent($this);
-	$this->param['params'][$paramName] = $param;
-
-	return $this;
-    }
-
-    public function hasParams(): bool {
-	return !empty($this->param['params']);
+    public function getDataType(): string {
+        return $this->param['dataType'];
     }
 
     /**
      * @return Base[]
      */
     public function getParams(): array {
-	return $this->param['params'];
+        return $this->param['params'];
+    }
+
+    /**
+     * @param Base[] $params
+     */
+    public function setSubParams(array $params) {
+        foreach ($params as $param) {
+            if (!$param instanceof Base) {
+                throw new \InvalidArgumentException('Every item have to be instance of ' . self::class);
+            }
+
+            $param->setParent($this);
+            $paramName = $param->getDescription()['name'];
+            $this->param['params'][$paramName] = $param;
+        }
+    }
+
+    public function addParam(Base $param) {
+        $paramName = $param->getDescription()['name'];
+        if (key_exists($paramName, $this->param['params'])) {
+            return $this;
+        }
+
+        $param->setParent($this);
+        $this->param['params'][$paramName] = $param;
+
+        return $this;
+    }
+
+    public function hasParams(): bool {
+        return !empty($this->param['params']);
+    }
+
+    public function getAdditionalInfo(): array {
+        return $this->param['additionalInfo'];
     }
 
     public function setAdditionalInfo(array $aditionalInfo) {
-	$this->param['additionalInfo'] = $aditionalInfo;
-	return $this;
+        $this->param['additionalInfo'] = $aditionalInfo;
+        return $this;
     }
 
     public function setAdditionalInfoKey(string $key, $value) {
-	$this->param['additionalInfo'][$key] = $value;
-	return $this;
+        $this->param['additionalInfo'][$key] = $value;
+        return $this;
     }
 
     public function getParent(): Base {
-	return $this->parent;
+        return $this->parent;
     }
 
     public function setParent(Base $parent) {
-	$this->parent = $parent;
-	return $this;
+        $this->parent = $parent;
+        return $this;
     }
 
 }

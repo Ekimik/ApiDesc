@@ -11,78 +11,94 @@ use Ekimik\ApiDesc\Param\Request as RequestParam;
 class Action implements IAction {
 
     protected $action = [
-	'name' => NULL,
-	'about' => NULL, // human friendly description of action
-	'additionalInfo' => [],
-	'method' => NULL,
-	'response' => NULL,
-	'params' => [],
+        'name' => null,
+        'about' => null, // human friendly description of action
+        'additionalInfo' => [],
+        'method' => null,
+        'response' => null,
+        'params' => [],
     ];
 
     public function __construct(string $actionName, string $method) {
-	$this->action['name'] = $actionName;
-	$this->action['method'] = $method;
+        $this->action['name'] = $actionName;
+        $this->action['method'] = $method;
     }
 
     public function getDescription(): array {
-	return $this->action;
+        return $this->action;
     }
 
     public function getRawData(): array {
-	$data = $this->getDescription();
-	foreach ($data['params'] as &$param) {
-	    $param = $param->getRawData();
-	}
+        $data = $this->getDescription();
+        foreach ($data['params'] as &$param) {
+            $param = $param->getRawData();
+        }
 
-	$data['response'] = $data['response']->getRawData();
+        $data['response'] = $data['response']->getRawData();
 
-	return $data;
+        return $data;
     }
 
     public function setRawData(array $rawData) {
-	foreach ($rawData['params'] as &$param) {
-	    $rp = new RequestParam('', '');
-	    $rp->setRawData($param);
-	    $param = $rp;
-	}
+        foreach ($rawData['params'] as &$param) {
+            $rp = new RequestParam('', '');
+            $rp->setRawData($param);
+            $param = $rp;
+        }
 
-	$response = new Response('');
-	$response->setRawData($rawData['response']);
-	$rawData['response'] = $response;
+        $response = new Response('');
+        $response->setRawData($rawData['response']);
+        $rawData['response'] = $response;
 
-	$this->action = $rawData;
+        $this->action = $rawData;
     }
 
-    public function setAdditionalInfo(array $aditionalInfo) {
-	$this->action['additionalInfo'] = $aditionalInfo;
-	return $this;
+    public function getMethod(): string {
+        return $this->action['method'];
+    }
+
+    public function getName(): string {
+        return $this->action['name'];
+    }
+
+    public function getAdditionalInfo(): array {
+        return $this->action['additionalInfo'];
+    }
+
+    public function setAdditionalInfo(array $additionalInfo) {
+        $this->action['additionalInfo'] = $additionalInfo;
+        return $this;
     }
 
     public function setAdditionalInfoKey(string $key, $value) {
-	$this->action['additionalInfo'][$key] = $value;
-	return $this;
+        $this->action['additionalInfo'][$key] = $value;
+        return $this;
     }
 
     public function setAboutInfo(string $about) {
-	$this->action['about'] = $about;
+        $this->action['about'] = $about;
+    }
+
+    public function getResponse(): IResponse {
+        return $this->action['response'];
     }
 
     public function setResponse(IResponse $response) {
-	$this->action['response'] = $response;
-	return $this;
+        $this->action['response'] = $response;
+        return $this;
     }
 
     public function addParam(RequestParam $param) {
-	$paramDef = $param->getDescription();
-	$this->action['params'][$paramDef['name']] = $param;
-	return $this;
+        $paramDef = $param->getDescription();
+        $this->action['params'][$paramDef['name']] = $param;
+        return $this;
     }
 
     /**
      * @return RequestParam[]
      */
     public function getParams(): array {
-	return $this->action['params'];
+        return $this->action['params'];
     }
 
     /**
@@ -90,20 +106,20 @@ class Action implements IAction {
      * @return RequestParam|null
      */
     public function getParam(string $path) {
-	$nameParts = explode(RequestParam::NAME_PATH_SEPARATOR, $path);
+        $nameParts = explode(RequestParam::NAME_PATH_SEPARATOR, $path);
 
-	$param = NULL;
-	$parent = NULL;
-	foreach ($nameParts as $part) {
-	    $param = $this->getParamByName($part, $parent);
-	    if (empty($param)) {
-		return NULL;
-	    }
+        $param = null;
+        $parent = null;
+        foreach ($nameParts as $part) {
+            $param = $this->getParamByName($part, $parent);
+            if (empty($param)) {
+                return null;
+            }
 
-	    $parent = $param;
-	}
+            $parent = $param;
+        }
 
-	return $param;
+        return $param;
     }
 
     /**
@@ -111,21 +127,21 @@ class Action implements IAction {
      * @param RequestParam $parent
      * @return RequestParam|null
      */
-    private function getParamByName(string $name, RequestParam $parent = NULL) {
-	if ($parent === NULL) {
-	    $params = $this->getParams();
-	} else {
-	    $params = $parent->getParams();
-	}
+    private function getParamByName(string $name, RequestParam $parent = null) {
+        if ($parent === null) {
+            $params = $this->getParams();
+        } else {
+            $params = $parent->getParams();
+        }
 
-	foreach ($params as $param) {
-	    $pName = $param->getDescription()['name'];
-	    if ($pName === $name) {
-		return $param;
-	    }
-	}
+        foreach ($params as $param) {
+            $pName = $param->getDescription()['name'];
+            if ($pName === $name) {
+                return $param;
+            }
+        }
 
-	return NULL;
+        return null;
     }
 
 }
