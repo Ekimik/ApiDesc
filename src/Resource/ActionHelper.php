@@ -21,13 +21,22 @@ class ActionHelper {
         $this->setOptions($options);
     }
 
-    public static function createDefaultRequestParam(string $name, string $dataType, $desc = null): RequestParam {
+    public static function createRequestParam(string $name, string $dataType, $desc = null): RequestParam {
         $p = new RequestParam($name, $dataType);
         if (!empty($desc)) {
             $p->setAdditionalInfoKey('info', $desc);
         }
 
         return $p;
+    }
+
+    public static function createResponse(string $dataType, $about = null): Response {
+        $r = new Response($dataType);
+        if (!empty($about)) {
+            $r->setAboutInfo($about);
+        }
+
+        return $r;
     }
 
     public function createHelpAction(string $resource): Action {
