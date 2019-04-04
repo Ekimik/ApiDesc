@@ -17,6 +17,7 @@ class Action implements IAction {
         'method' => null,
         'response' => null,
         'params' => [],
+        'authorization' => [],
     ];
 
     public function __construct(string $actionName, string $method) {
@@ -31,6 +32,7 @@ class Action implements IAction {
     public function getRawData(): array {
         $data = $this->getDescription();
         foreach ($data['params'] as &$param) {
+            /** @var RequestParam $param */
             $param = $param->getRawData();
         }
 
@@ -85,6 +87,19 @@ class Action implements IAction {
 
     public function setResponse(IResponse $response) {
         $this->action['response'] = $response;
+        return $this;
+    }
+
+    public function isPublic(): bool {
+        return empty($this->action['authorization']);
+    }
+
+    public function getAuthorization(): array {
+        return $this->action['authorization'];
+    }
+
+    public function setAuthorization(string $resource, string $privilege) {
+        $this->action['authorization'] = ['resource' => $resource, 'privilege' => $privilege];
         return $this;
     }
 

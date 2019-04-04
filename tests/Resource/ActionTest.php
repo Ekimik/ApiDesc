@@ -28,8 +28,23 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'params' => [],
             'response' => null,
             'additionalInfo' => [],
+            'authorization' => [],
         ];
         $this->assertEquals($actionDef, $action->getDescription());
+        $this->assertTrue($action->isPublic());
+
+        $action->setAuthorization('foo resource', 'read');
+        $actionDef = [
+            'name' => 'Foo',
+            'method' => IAction::METHOD_GET,
+            'about' => null,
+            'params' => [],
+            'response' => null,
+            'additionalInfo' => [],
+            'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
+        ];
+        $this->assertEquals($actionDef, $action->getDescription());
+        $this->assertFalse($action->isPublic());
 
         $response = new Response('integer');
         $response->setAboutInfo('number of something');
@@ -41,6 +56,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'params' => [],
             'response' => $response,
             'additionalInfo' => [],
+            'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
         ];
         $this->assertEquals($actionDef, $action->getDescription());
     }
@@ -66,7 +82,8 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
                 'param_2' => $param2,
             ],
             'response' => null,
-            'additionalInfo' => []
+            'additionalInfo' => [],
+            'authorization' => [],
         ];
 
         $this->assertEquals($actionDef, $action->getDescription());
@@ -129,6 +146,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
                 ]
             ],
             'additionalInfo' => [],
+            'authorization' => [],
         ];
         $this->assertEquals($rawData, $action->getRawData());
 
