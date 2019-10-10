@@ -104,11 +104,19 @@ class Action implements IAction {
         return $this;
     }
 
-    public function getHandler(): callable {
+    /**
+     * @return array|null
+     * @see Action::setHandler for more informations
+     */
+    public function getHandler() {
         return $this->action['handler'];
     }
 
-    public function setHandler(callable $handler) {
+    /**
+     * @param array $handler     same structure as definition of callable using array. It's up to user how handler
+     * information will be used in app
+     */
+    public function setHandler(array $handler) {
         $this->action['handler'] = $handler;
         return $this;
     }
