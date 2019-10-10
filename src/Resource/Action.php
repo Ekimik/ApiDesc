@@ -14,10 +14,11 @@ class Action implements IAction {
         'name' => null,
         'about' => null, // human friendly description of action
         'additionalInfo' => [],
-        'method' => null,
+        'method' => null, // see constants IAction::METHOD_*
         'response' => null,
         'params' => [],
         'authorization' => [],
+        'handler' => null,
     ];
 
     public function __construct(string $actionName, string $method) {
@@ -100,6 +101,15 @@ class Action implements IAction {
 
     public function setAuthorization(string $resource, string $privilege) {
         $this->action['authorization'] = ['resource' => $resource, 'privilege' => $privilege];
+        return $this;
+    }
+
+    public function getHandler(): callable {
+        return $this->action['handler'];
+    }
+
+    public function setHandler(callable $handler) {
+        $this->action['handler'] = $handler;
         return $this;
     }
 
