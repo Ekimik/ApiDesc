@@ -29,6 +29,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'response' => null,
             'additionalInfo' => [],
             'authorization' => [],
+            'handler' => null,
         ];
         $this->assertEquals($actionDef, $action->getDescription());
         $this->assertTrue($action->isPublic());
@@ -42,6 +43,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'response' => null,
             'additionalInfo' => [],
             'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
+            'handler' => null,
         ];
         $this->assertEquals($actionDef, $action->getDescription());
         $this->assertFalse($action->isPublic());
@@ -57,6 +59,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'response' => $response,
             'additionalInfo' => [],
             'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
+            'handler' => null,
         ];
         $this->assertEquals($actionDef, $action->getDescription());
     }
@@ -84,6 +87,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'response' => null,
             'additionalInfo' => [],
             'authorization' => [],
+            'handler' => null,
         ];
 
         $this->assertEquals($actionDef, $action->getDescription());
@@ -147,6 +151,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             ],
             'additionalInfo' => [],
             'authorization' => [],
+            'handler' => null,
         ];
         $this->assertEquals($rawData, $action->getRawData());
 
