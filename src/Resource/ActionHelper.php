@@ -70,7 +70,8 @@ class ActionHelper {
 
         $urlParts = array_fill(0, $argsCount, '%s');
         $urlFormat = implode('/', $urlParts);
-        return vsprintf($urlFormat, $args);
+        $path = vsprintf($urlFormat, $args);
+        return rtrim($path, '/');
     }
 
     protected function setOptions(array $options) {

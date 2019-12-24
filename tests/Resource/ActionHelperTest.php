@@ -25,6 +25,7 @@ class ActionHelperTest extends TestCase {
         $p1 = ActionHelper::createRequestParam('foo', 'string');
         $p2 = ActionHelper::createRequestParam('bar', 'integer');
         $helper = new ActionHelper([ActionHelper::OPTION_API_VERSION => 'v1'], [$p1, $p2]);
+
         $a = $helper->createAction('foobar/barbar', IAction::METHOD_POST, [IAction::OPTION_INFO => 'Foobar info']);
         $this->assertEquals(IAction::METHOD_POST, $a->getMethod());
         $this->assertEquals('foobar/barbar', $a->getName());
@@ -41,6 +42,13 @@ class ActionHelperTest extends TestCase {
         $this->assertEquals(IAction::METHOD_POST, $a->getMethod());
         $this->assertEquals('v1/foobar/barbar', $a->getName());
         $this->assertEquals([IAction::OPTION_INFO => 'Foobar info'], $a->getAdditionalInfo());
+        $this->assertCount(2, $a->getParams());
+        $this->assertSame($p1, $a->getParams()['foo']);
+        $this->assertSame($p2, $a->getParams()['bar']);
+
+        $a = $helper->createAction($helper->createActionPath(''), IAction::METHOD_DELETE);
+        $this->assertEquals(IAction::METHOD_DELETE, $a->getMethod());
+        $this->assertEquals('v1', $a->getName());
         $this->assertCount(2, $a->getParams());
         $this->assertSame($p1, $a->getParams()['foo']);
         $this->assertSame($p2, $a->getParams()['bar']);
