@@ -19,6 +19,7 @@ class Action implements IAction {
         'params' => [],
         'authorization' => [],
         'handler' => null,
+        'headers' => [],
     ];
 
     public function __construct(string $actionName, string $method) {
@@ -118,6 +119,24 @@ class Action implements IAction {
      */
     public function setHandler(array $handler) {
         $this->action['handler'] = $handler;
+        return $this;
+    }
+
+    public function getHeaders(): array {
+        return $this->action['headers'];
+    }
+
+    public function setHeaders(array $headers) {
+        $this->action['headers'] = $headers;
+        return $this;
+    }
+
+    public function addHeader(string $name, $value, bool $required = true) {
+        $key = strtolower($name);
+        $headers = $this->getHeaders();
+        $headers[$key] = ['name' => $name, 'value' => $value, 'required' => $required];
+        $this->setHeaders($headers);
+
         return $this;
     }
 

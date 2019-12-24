@@ -30,6 +30,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'additionalInfo' => [],
             'authorization' => [],
             'handler' => null,
+            'headers' => [],
         ];
         $this->assertEquals($actionDef, $action->getDescription());
         $this->assertTrue($action->isPublic());
@@ -44,6 +45,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'additionalInfo' => [],
             'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
             'handler' => null,
+            'headers' => [],
         ];
         $this->assertEquals($actionDef, $action->getDescription());
         $this->assertFalse($action->isPublic());
@@ -60,6 +62,23 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'additionalInfo' => [],
             'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
             'handler' => null,
+            'headers' => [],
+        ];
+        $this->assertEquals($actionDef, $action->getDescription());
+
+        $action->addHeader('Foo', 'Bar');
+        $actionDef = [
+            'name' => 'Foo',
+            'method' => IAction::METHOD_GET,
+            'about' => null,
+            'params' => [],
+            'response' => $response,
+            'additionalInfo' => [],
+            'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
+            'handler' => null,
+            'headers' => [
+                'foo' => ['name' => 'Foo', 'value' => 'Bar', 'required' => true],
+            ],
         ];
         $this->assertEquals($actionDef, $action->getDescription());
     }
@@ -88,6 +107,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'additionalInfo' => [],
             'authorization' => [],
             'handler' => null,
+            'headers' => [],
         ];
 
         $this->assertEquals($actionDef, $action->getDescription());
@@ -152,6 +172,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'additionalInfo' => [],
             'authorization' => [],
             'handler' => null,
+            'headers' => [],
         ];
         $this->assertEquals($rawData, $action->getRawData());
 
