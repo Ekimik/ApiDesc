@@ -66,7 +66,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
         ];
         $this->assertEquals($actionDef, $action->getDescription());
 
-        $action->addHeader('Foo', 'Bar');
+        $action->addHeader('Foo');
         $actionDef = [
             'name' => 'Foo',
             'method' => IAction::METHOD_GET,
@@ -77,7 +77,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase {
             'authorization' => ['resource' => 'foo resource', 'privilege' => 'read'],
             'handler' => null,
             'headers' => [
-                'foo' => ['name' => 'Foo', 'value' => 'Bar', 'required' => true],
+                'foo' => ['name' => 'Foo', 'required' => true],
             ],
         ];
         $this->assertEquals($actionDef, $action->getDescription());

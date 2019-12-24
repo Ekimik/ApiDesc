@@ -131,10 +131,10 @@ class Action implements IAction {
         return $this;
     }
 
-    public function addHeader(string $name, $value, bool $required = true) {
+    public function addHeader(string $name, bool $required = true) {
         $key = strtolower($name);
         $headers = $this->getHeaders();
-        $headers[$key] = ['name' => $name, 'value' => $value, 'required' => $required];
+        $headers[$key] = ['name' => $name, 'required' => $required];
         $this->setHeaders($headers);
 
         return $this;
