@@ -9,6 +9,7 @@ use Nette\Utils\Strings;
 abstract class ApiDescriptor {
 
     protected $methodsPattern = 'get%sResourceDescription';
+    protected $forbiddenActionFields = [];
 
     public function getDescription(): Api {
         $reflection = new \ReflectionClass($this);
@@ -33,6 +34,22 @@ abstract class ApiDescriptor {
         }
 
         return $api;
+    }
+
+    public function getHumanDescription(): array {
+        $description = $this->getDescription()->getRawData();
+
+        if (!empty($this->forbiddenActionFields)) {
+            foreach ($description['resources'] as &$resource) {
+                foreach ($resource['actions'] as &$action) {
+                    foreach ($this->forbiddenActionFields as $field) {
+                        unset($action[$field]);
+                    }
+                }
+            }
+        }
+
+        return $description;
     }
 
     /**

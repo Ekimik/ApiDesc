@@ -35,6 +35,35 @@ class ApiDescriptorTest extends TestCase {
     }
 
     /**
+     * @covers ApiDescriptor::getHumanDescription
+     */
+    public function testGetHumanDescription() {
+        $description = [
+            'name' => 'Foo/Bar',
+            'about' => null,
+            'version' => 'v1',
+            'resources' => [
+                [
+                    'name' => 'baz',
+                    'about' => null,
+                    'actions' => [
+                        [
+                            'name' => 'v1/baz/action',
+                            'about' => null,
+                            'additionalInfo' => [],
+                            'method' => 'GET',
+                            'response' => null,
+                            'params' => [],
+                            'headers' => [],
+                        ]
+                    ]
+                ]
+            ],
+        ];
+        $this->assertEquals($description, $this->object->getHumanDescription());
+    }
+
+    /**
      * @covers ApiDescriptor::getResourceDescription
      */
     public function testGetResourceDescription() {
@@ -64,13 +93,17 @@ class ApiDescriptorTest extends TestCase {
 
 class ApiDesc extends ApiDescriptor {
 
+    protected $forbiddenActionFields = ['authorization', 'handler'];
+
     protected function createApi(): Api {
         return new Api('Foo/Bar', 'v1');
     }
 
     protected function getBazResourceDescription(): Description {
         $r = new Description('baz');
-        $r->addAction(new Action('v1/baz/action', 'GET'));
+        $action = new Action('v1/baz/action', 'GET');
+        $action->setAuthorization('baz', 'read');
+        $r->addAction($action);
         return $r;
     }
 }
