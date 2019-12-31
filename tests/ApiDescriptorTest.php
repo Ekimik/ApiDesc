@@ -6,6 +6,7 @@ use Ekimik\ApiDesc\Api;
 use Ekimik\ApiDesc\ApiDescriptor;
 use Ekimik\ApiDesc\Resource\Action;
 use Ekimik\ApiDesc\Resource\Description;
+use Ekimik\ApiDesc\Resource\Response;
 use PHPUnit\Framework\TestCase;
 
 class ApiDescriptorTest extends TestCase {
@@ -52,7 +53,11 @@ class ApiDescriptorTest extends TestCase {
                             'about' => null,
                             'additionalInfo' => [],
                             'method' => 'GET',
-                            'response' => null,
+                            'response' => [
+                                'dataType' => 'array',
+                                'about' => null,
+                                'attrs' => []
+                            ],
                             'params' => [],
                             'headers' => [],
                         ]
@@ -101,9 +106,12 @@ class ApiDesc extends ApiDescriptor {
 
     protected function getBazResourceDescription(): Description {
         $r = new Description('baz');
+
         $action = new Action('v1/baz/action', 'GET');
         $action->setAuthorization('baz', 'read');
+        $action->setResponse(new Response('array'));
         $r->addAction($action);
+
         return $r;
     }
 }
